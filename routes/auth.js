@@ -1,8 +1,8 @@
 const { Router } = require("express");
 const { check } = require("express-validator");
 
-const { login, googleSignIn } = require("../controllers/auth");
-const { checkFields } = require("../middlewares/check-fields");
+const { login, googleSignIn, renewToken } = require("../controllers/auth");
+const { checkFields, validateJWT } = require("../middlewares");
 
 const router = Router();
 
@@ -16,5 +16,7 @@ router.post("/google",[
   check('id_token', 'id token is necessary').not().isEmpty(),
   checkFields
 ], googleSignIn);
+
+router.get("/", validateJWT, renewToken );
 
 module.exports = router;
