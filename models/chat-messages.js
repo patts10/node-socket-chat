@@ -1,4 +1,4 @@
-class message {
+class Message {
     constructor( uid, name, message ) {
         this.uid = uid;
         this.name = name;
@@ -18,12 +18,12 @@ class ChatMessages {
   }
 
   get usersArray() {
-    return Object.values(this.users);
+    return Object.values( this.users );
   }
 
   sendMessage( uid, name, message ) {
-    this.messages.shift(
-      new message( uid, name, message )
+    this.messages.unshift(
+      new Message( uid, name, message )
     );
   }
 
