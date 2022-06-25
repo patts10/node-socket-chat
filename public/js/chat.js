@@ -46,27 +46,54 @@ connectSocket = async () => {
     console.log('Disconnected from server');
   });
 
-  socket.on('receive-message', () => {
-
-  });
-
+  socket.on('receive-message', printMessages);
   socket.on('active-users', printUsers );
 
-  socket.on('private-message', () => {
-
+  socket.on('private-message', (payload) => {
+    console.log("private: ", payload);
   });
   
 }
 
 const printUsers = ( users = [] ) => {
   ulUsers.innerHTML = '';
-  users.forEach(user => {
+  users.forEach(({ name, uid }) => {
     const li = document.createElement('li');
-    li.innerHTML = `${user.name} - ${user.uid}`;
+    li.innerHTML = `${name} - ${uid}`;
     ulUsers.appendChild(li);
   });
 }
+
+const printMessages = ( messages = [] ) => {
+
+  let messagesHTML = "";
+  messages.forEach( ({ name, message }) => {
+    messagesHTML += `
+    <li>
+      <p>
+        <span class="text-primary">${name}: </span>
+        <span>${message}</span>
+      </p>
+    </li>
+   `;
+  });
+  ulMessages.innerHTML = messagesHTML;
+}
   
+txtMessage.addEventListener('keyup', ({ keyCode }) => {
+
+  const message = txtMessage.value;
+  const uid = txtUid.value;
+  
+  if (keyCode !== 13) return;
+  if (message.trim().length === 0) return;
+
+  socket.emit('send-message', { message, uid });
+
+  txtMessage.value = '';
+
+  
+});
 
 const main  = async () => {
 
