@@ -50,14 +50,21 @@ connectSocket = async () => {
 
   });
 
-  socket.on('active-users', (payload) => {
-    console.log(payload);
-  });
+  socket.on('active-users', printUsers );
 
   socket.on('private-message', () => {
 
   });
   
+}
+
+const printUsers = ( users = [] ) => {
+  ulUsers.innerHTML = '';
+  users.forEach(user => {
+    const li = document.createElement('li');
+    li.innerHTML = `${user.name} - ${user.uid}`;
+    ulUsers.appendChild(li);
+  });
 }
   
 

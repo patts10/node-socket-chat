@@ -25,14 +25,15 @@ class ChatMessages {
     this.messages.unshift(
       new Message( uid, name, message )
     );
+    console.log("messages: ", this.messages);
   }
 
   connectUser( user ) {
-    this.users[user.uid] = user;
+    this.users[user.id] = user;
   }
 
-  disconnectUser( uid ) {
-    delete this.users[uid];
+  disconnectUser( id ) {
+    delete this.users[id];
   }
 }
 
